@@ -10,15 +10,15 @@ export default class Test extends React.Component {
   }
 
   componentDidMount () {
-    this._fetchData().then(res => {
+    this._fetchData(2).then(res => {
       this.setState({
         boats: res
       });
     });
   }
 
-  _fetchData () {
-    return fetch('http://localhost:3000/boats', {
+  _fetchData (id) {
+    return fetch(`http://localhost:3000/boats/${id}`, {
       method: 'GET',
       header: {
         'Content-Type': 'application/json'
@@ -30,21 +30,57 @@ export default class Test extends React.Component {
       else {
         throw new Error(res.statusText);
       }
-    });
+    })
+      .then(boat=>{
+        return fetch('http://localhost:3000/workers', {
+          method: 'GET',
+          header: {
+            'Content-Type': 'application/json'
+          }
+        })
+          .then(res=>{
+            let workersJson = "";
+            if(res.ok){
+              return workersJson = res.json();
+            }
+          })
+        .then(wokers=>{
+            let validWorkers = wokers.filter((worker)=>{
+              // let bid = id;
+              return worker.boatIds.includes(id);
+            });
+            boat = Object.assign(boat, {workers: validWorkers});
+            return boat;
+        });
+    })
+
+
+
+
+
+
+    // return fetch('http://localhost:3000/boats', {
+    //   method: 'GET',
+    //   header: {
+    //     'Content-Type': 'application/json'
+    //   }
+    // }).then(res => {
+    //   if (res.ok) {
+    //     return res.json();
+    //   }
+    //   else {
+    //     throw new Error(res.statusText);
+    //   }
+    // });
   }
 
   render () {
-    const data = this.state.boats.map((boat, i) => {
-      return (
-        <li>{boat.name}</li>
-      );
-    });
+
     return (
       <p>
-        <h1>Hello World</h1>
-        <ul>
-          {data}
-        </ul>
+        <span>Hello World</span>
+
+          {JSON.stringify(this.state.boats)}
       </p>
     );
   }
