@@ -16,5 +16,12 @@ module.exports = {
         test: /\.jsx/, loader: 'babel-loader', exclude: /node_modules/
       },
     ]
-  }
+  },
+
+  devServer: {
+    contentBase: path.join(__dirname, "dist"),
+    compress: true,
+    stats: "errors-only",
+    open: true
+  },
 };
