@@ -22,6 +22,7 @@ export default class EditBoat extends React.Component {
     };
 
     this.handleChange = this.handleChange.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -87,7 +88,7 @@ export default class EditBoat extends React.Component {
     });
   }
 
-  _convertDate(dateString){
+  _convertDate (dateString) {
     let regex = /\d{4}-\d{2}-\d{2}/;
     return regex.exec(dateString);
   }
@@ -97,6 +98,22 @@ export default class EditBoat extends React.Component {
     const inputValue = event.target.value;
     this.setState({
       [inputName]: inputValue,
+    });
+  }
+
+  handleDelete () {
+    fetch(`http://localhost:3000/boats/${this.boatId}`, {
+      method: 'DELETE',
+    }).then(res => {
+      if (res.ok) {
+        alert('Deleted');
+        this.props.history.push('/');
+      }
+      else {
+        throw new Error(res.statusText);
+      }
+    }).catch(err => {
+      alert('Error: ', err);
     });
   }
 
@@ -139,78 +156,95 @@ export default class EditBoat extends React.Component {
     if (boatData !== '') {
       return (
         <div>
-          <h2>Create boat record</h2>
+          <h2>View and Update</h2>
           <hr/>
-          <form id="edit-boat-form" onSubmit={this.handleSubmit}
-                encType="multipart/form-data">
-            <p style={{color: 'red'}}>{this.state.errMsg}</p>
-            <div className="form-group">
-              <label htmlFor="name">Name</label>
-              <input type="text" name="name" className="form-control" id="name"
-                     placeholder="Boat name"
-                     onChange={this.handleChange} value={this.state.name}
-                     required/>
-            </div>
-            <div className="form-group">
-              <label htmlFor="type">Type</label>
-              <input type="text" name="type" className="form-control"
-                     id="type" placeholder="Boat type"
-                     onChange={this.handleChange} value={this.state.type}
-                     required/>
-            </div>
-            <div className="form-group">
-              <label htmlFor="photo">Photo</label>
-              <input type="url" name="photo" className="form-control"
-                     readOnly="true"
-                     id="photo" placeholder="Photo url"
-                     value={this.state.photo}
-                     required/>
-            </div>
-            <div className="form-group">
-              <label htmlFor="length">Length</label>
-              <input type="number" name="length" className="form-control"
-                     id="length" placeholder="Boat length"
-                     onChange={this.handleChange} value={this.state.length}/>
-            </div>
-            <div className="form-group">
-              <label htmlFor="work-description">Work description</label>
-              <input type="text" name="work_description"
-                     className="form-control"
-                     id="work-description" placeholder="Work description"
-                     onChange={this.handleChange}
-                     value={this.state.work_description}/>
-            </div>
-            <div className="form-group">
-              <label htmlFor="arrival-date">Arrive date</label>
-              <input type="date" name="arrival_date" className="form-control"
-                     id="arrival-date"
-                     placeholder="yyyy/mm/dd"
-                     onChange={this.handleChange}
-                     value={this._convertDate(this.state.arrival_date)[0]}/>
+
+          <div className="row">
+            <div className="col-md-3">
+              <div className="text-center">
+                <img src={`${this.state.photo}`} className="img img-fluid"
+                     alt="Boat image"/>
+              </div>
             </div>
 
-            <div className="form-group">
-              <label htmlFor="delivery-date">Delivery date</label>
-              <input type="date" name="delivery_date" className="form-control"
-                     id="delivery-date"
-                     placeholder="yyyy/mm/dd"
-                     onChange={this.handleChange}
-                     value={this._convertDate(this.state.delivery_date)[0]}/>
+            <div className="col-md-9 ">
+              <form id="edit-boat-form" onSubmit={this.handleSubmit}
+                    encType="multipart/form-data">
+                <p style={{color: 'red'}}>{this.state.errMsg}</p>
+
+                <div className="form-group">
+                  <label htmlFor="name">Name</label>
+                  <input type="text" name="name" className="form-control"
+                         id="name"
+                         placeholder="Boat name"
+                         onChange={this.handleChange} value={this.state.name}
+                         required/>
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="type">Type</label>
+                  <input type="text" name="type" className="form-control"
+                         id="type" placeholder="Boat type"
+                         onChange={this.handleChange} value={this.state.type}
+                         required/>
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="length">Length</label>
+                  <input type="number" name="length" className="form-control"
+                         id="length" placeholder="Boat length"
+                         onChange={this.handleChange}
+                         value={this.state.length}/>
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="work-description">Work description</label>
+                  <input type="text" name="work_description"
+                         className="form-control"
+                         id="work-description" placeholder="Work description"
+                         onChange={this.handleChange}
+                         value={this.state.work_description}/>
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="arrival-date">Arrive date</label>
+                  <input type="date" name="arrival_date"
+                         className="form-control"
+                         id="arrival-date"
+                         placeholder="yyyy/mm/dd"
+                         onChange={this.handleChange}
+                         value={this._convertDate(this.state.arrival_date)[0]}/>
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="delivery-date">Delivery date</label>
+                  <input type="date" name="delivery_date"
+                         className="form-control"
+                         id="delivery-date"
+                         placeholder="yyyy/mm/dd"
+                         onChange={this.handleChange}
+                         value={this._convertDate(
+                           this.state.delivery_date)[0]}/>
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="status">Status</label>
+                  <input type="text" name="status" className="form-control"
+                         id="status" placeholder="Status"
+                         onChange={this.handleChange}
+                         value={this.state.status}/>
+                </div>
+
+                <button type="submit" className="btn btn-primary"
+                        onClick={(e) => {this.handleSubmit(e);}}>Update
+                </button>
+                <Link to='/boats' className="btn btn-secondary">Cancel</Link>
+                <button type="button" className="btn btn-danger float-right"
+                        onClick={this.handleDelete}>Delete
+                </button>
+              </form>
             </div>
-
-            <div className="form-group">
-              <label htmlFor="status">Status</label>
-              <input type="text" name="status" className="form-control"
-                     id="status" placeholder="Status"
-                     onChange={this.handleChange} value={this.state.status}/>
-            </div>
-
-            <button type="submit" className="btn btn-primary"
-                    onClick={(e) => {this.handleSubmit(e);}}>Update
-            </button>
-            <Link to='/boats' className="btn btn-danger">Cancel</Link>
-          </form>
-
+          </div>
         </div>
       );
     } else {
@@ -220,6 +254,7 @@ export default class EditBoat extends React.Component {
     }
   }
 }
+
 
 
 
