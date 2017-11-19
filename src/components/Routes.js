@@ -4,6 +4,7 @@ import {Switch, Route, Redirect} from 'react-router-dom';
 import BoatsList from './BoatsList';
 import CreateBoat from './CreateBoat';
 import EditBoat from './EditBoat';
+import Assignment from './Assignment';
 
 
 export default function Routes (){
@@ -14,6 +15,7 @@ export default function Routes (){
         <Route exact path='/boats' component={BoatsList}/>
         <Route path='/boats/create' component={CreateBoat} />
         <Route exact path='/boats/:boatId(\d+)' component={EditBoat} />
+        <Route path='/assignment' component={Assignment} />
       </Switch>
     </main>
   );
