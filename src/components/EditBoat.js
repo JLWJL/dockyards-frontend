@@ -77,13 +77,12 @@ export default class EditBoat extends React.Component {
         if (res.ok) {
           return res.json();
         }
-      }).then(wokers => {
-        let validWorkers = wokers.filter((worker) => {
-          return worker.boatIds.includes(id);
+      }).then(workers => {
+        let assignedWorkers = workers.filter((worker) => {
+          return worker.boatIds.includes(parseInt(id));
         });
         //Merge worker data to boat object
-        boat = Object.assign(boat, {workers: validWorkers});
-        return boat;
+        return Object.assign(boat, {'workers': assignedWorkers});
       });
     });
   }
@@ -153,6 +152,16 @@ export default class EditBoat extends React.Component {
 
   render () {
     const {boatData} = this.state;
+    let assignedWorkers = {};
+    if(boatData.workers){
+      assignedWorkers=boatData.workers.map((worker, i)=>{
+        return(
+          <li key={i}>{worker.name}</li>
+        )
+      })
+    }
+
+
     if (boatData !== '') {
       return (
         <div>
@@ -165,6 +174,11 @@ export default class EditBoat extends React.Component {
                 <img src={`${this.state.photo}`} className="img img-fluid"
                      alt="Boat image"/>
               </div>
+
+              <h4>Workers assigned:</h4>
+              <ul>
+                {assignedWorkers}
+              </ul>
             </div>
 
             <div className="col-md-9 ">
@@ -247,10 +261,16 @@ export default class EditBoat extends React.Component {
           </div>
         </div>
       );
-    } else {
+    }
+    else if (this.state.notFound) {
       return (
         <h1>Sorry, boat does not exist</h1>
       );
+    }
+    else {
+      return (
+        <h1>Loading...</h1>
+      )
     }
   }
 }
