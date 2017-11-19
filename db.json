@@ -16,11 +16,33 @@
       "name": "Boat Two",
       "type": "Motor",
       "photo": "http://via.placeholder.com/350x150/269AB3",
-      "length": 8.3,
+      "length": "8.3",
       "work_description": "Needs a new engine",
-      "arrival_date": "2017-05-02T11:00:00Z",
-      "delivery_date": "2017-05-07T11:00:00Z",
-      "status": "under repair"
+      "arrival_date": "2017-05-02",
+      "delivery_date": "2017-05-07",
+      "status": "finished"
+    },
+    {
+      "id": 3,
+      "name": "Boat Three",
+      "type": "Jet Boat",
+      "photo": "http://via.placeholder.com/350x150/269AB3",
+      "length": "5.3",
+      "work_description": "Needs a new engine",
+      "arrival_date": "2017-10-02",
+      "delivery_date": "2017-12-07",
+      "status": "finished"
+    },
+    {
+      "name": "Boat Four",
+      "type": "Ship",
+      "photo": "http://via.placeholder.com/350x150/51A143",
+      "length": "5.8",
+      "work_description": "Oil leak",
+      "arrival_date": "2018-12-29",
+      "delivery_date": "2017-12-31",
+      "status": "Pending",
+      "id": 4
     }
   ],
   "workers": [
@@ -40,7 +62,18 @@
       "photo": "http://via.placeholder.com/150x150/B66AA3",
       "boatIds": [
         1,
-        2
+        2,
+        4
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Worker Three",
+      "phone": "33333333",
+      "photo": "http://via.placeholder.com/150x150/B66AA3",
+      "boatIds": [
+        1,
+        3
       ]
     }
   ]
