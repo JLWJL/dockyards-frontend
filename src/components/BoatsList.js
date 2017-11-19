@@ -34,11 +34,11 @@ export default class BoatsList extends React.Component{
     const boatList = this.state.boats.map((boat,i)=>{
       return(
         <div key={i} className="col-12 col-sm-3 col-lg-4">
-          <Link to="#">
+          <Link to={`/boats/${boat.id}`}>
             <img className="img-fluid" src={boat.photo} alt="boat image"/>
           </Link>
           <div>
-            <Link to="#"><strong>{boat.name}</strong></Link>
+            <Link to={`/boats/${boat.id}`}><strong>{boat.name}</strong></Link>
           </div>
         </div>
       )
