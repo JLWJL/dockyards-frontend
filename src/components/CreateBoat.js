@@ -12,9 +12,9 @@ export default class NewJob extends React.Component {
       type: '',
       photo: 'http://via.placeholder.com/350x150/51A143',
       length: '',
-      workDescription: '',
-      arrivalDate: '',
-      deliveryDate: '',
+      work_description: '',
+      arrival_date: '',
+      delivery_date: '',
       status: ''
     };
     this.handleChange = this.handleChange.bind(this);
@@ -36,25 +36,32 @@ export default class NewJob extends React.Component {
     let form = document.getElementById('create-boat-form');
     const formData = new FormData(form); //multipart/form-data format
 
-    //Convert to json format
+    fetch('http://localhost:3000/boats', {
+      method: 'POST',
+      body: JSON.stringify(this._convertToObj(formData)),
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    }).then(res => {
+      if (res.ok) {
+        alert('Created');
+        this.props.history.push('/');
+      }
+      else {
+        throw new Error(res.statusText);
+      }
+    })
+      .catch(err=>{
+        alert("Error: ", err);
+    })
+  }
+
+  _convertToObj (formData) {
     let jsonFormData = {};
     for (let entry of formData.entries()) {
       jsonFormData[entry[0]] = entry[1];
     }
-    jsonFormData = JSON.stringify(jsonFormData);
-
-    fetch('http://localhost:3000/boats', {
-      method:"POST",
-      body: jsonFormData,
-      header:{
-        "Content-Type": "application/json",
-      }
-    })
-      .then(res=>{
-        if(res.ok){
-          alert("Created");
-        }
-    })
+    return jsonFormData;
   }
 
   render () {
@@ -81,7 +88,8 @@ export default class NewJob extends React.Component {
           </div>
           <div className="form-group">
             <label htmlFor="photo">Photo</label>
-            <input type="url" name="photo" className="form-control" readOnly="true"
+            <input type="url" name="photo" className="form-control"
+                   readOnly="true"
                    id="photo" placeholder="Photo url"
                    value={this.state.photo}
                    required/>
@@ -94,14 +102,14 @@ export default class NewJob extends React.Component {
           </div>
           <div className="form-group">
             <label htmlFor="work-description">Work description</label>
-            <input type="text" name="workDescription" className="form-control"
+            <input type="text" name="work_description" className="form-control"
                    id="work-description" placeholder="Work description"
                    onChange={this.handleChange}
                    value={this.state.workDescription}/>
           </div>
           <div className="form-group">
             <label htmlFor="arrival-date">Arrive date</label>
-            <input type="date" name="arrivalDate" className="form-control"
+            <input type="date" name="arrival_date" className="form-control"
                    id="arrival-date"
                    placeholder="yyyy/mm/dd"
                    onChange={this.handleChange} value={this.state.arrivalDate}/>
@@ -109,7 +117,7 @@ export default class NewJob extends React.Component {
 
           <div className="form-group">
             <label htmlFor="delivery-date">Delivery date</label>
-            <input type="date" name="deliveryDate" className="form-control"
+            <input type="date" name="delivery_date" className="form-control"
                    id="delivery-date"
                    placeholder="yyyy/mm/dd"
                    onChange={this.handleChange}
