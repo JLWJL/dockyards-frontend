@@ -49,6 +49,7 @@ export default class BoatsList extends React.Component{
         <div className="row">
           {boatList}
         </div>
+        <Link to="/boats/create" className="btn btn-primary">New record</Link>
       </div>
     );
   }
