@@ -1,15 +1,15 @@
 # dockyards-frontend
 SJS Weekend Test
 
-
+*Window environment may have to install some packages globally*
 ### Install
-```npm install / yarn install```
+```npm install -g```
 
 ### Build
 ```npm run build```
 
 ### Run Json-Server
-```npm start:api```
+```npm run start:api```
 
 ### Run Front-end
 ```npm run start:dev```
