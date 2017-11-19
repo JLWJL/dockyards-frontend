@@ -2,12 +2,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
-import Test from './components/test';
+import Routes from './components/Routes';
+import BoatsList from './components/BoatsList';
 
 
 ReactDOM.render((
   <BrowserRouter basename="/">
-    <Test/>
+    <Routes />
   </BrowserRouter>
 ),
 document.getElementById('root'),
