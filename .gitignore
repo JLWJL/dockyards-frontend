@@ -2,6 +2,6 @@
 /.idea
 
 /node_modules
-/dist
+/dist/bundle.js
 yarn.lock
 yarn-error.log
